@@ -1,26 +1,84 @@
-<header id="header">
-  <div id="header-inner-wrapper" class="bg-gray-100 pt-24 lg:pt-0">
-    <div
-      class="w-full max-w-screen-xl relative mx-auto px-6 pt-16 pb-40 md:pb-24"
-    >
-      <div class="text-left md:text-center sm:max-w-2xl max-w-3xl mx-auto">
+<header
+  id="header"
+  class="bg-cover bg-center bg-no-repeat"
+  style="background-image: url('/images/great_hall.jpg');"
+>
+  <div id="header-inner-wrapper" class="bg-gray-100 bg-opacity-0 pt-32 lg:pt-10">
+    <div class="w-full max-w-screen-xl relative mx-auto px-6 pt-20 pb-48 md:pb-32">
+      <div class="text-center sm:max-w-2xl max-w-3xl mx-auto text-white">
+        
+        <!-- Brand Section -->
         {{ with .Params.header_brand }}
-          {{- partial "header/brand.html" . -}}
+          <div class="mb-10 text-3xl">
+            {{- partial "header/brand.html" . -}}
+          </div>
         {{ end }}
+
+        <!-- Tagline & Countdown -->
         {{ with .Params.header_tagline_paragraph }}
-          {{- partial "header/tagline_paragraph.html" . -}}
+          <div class="mt-12 mb-16">
+            <!-- Countdown Timer -->
+            <div class="w-max mx-auto mb-8">
+              <div
+                class="m-1 p-4 w-96 rounded-2xl shadow-lg border border-gray-600 text-center bg-white bg-opacity-90 text-black"
+              >
+                <div id="countdown" class="text-3xl font-bold"></div>
+              </div>
+            </div>
+
+            <script>
+              function startCountdown() {
+                const targetDate = new Date("April 30, 2025 00:00:00").getTime();
+                const countdownElement = document.getElementById("countdown");
+
+                function updateCountdown() {
+                  const now = new Date().getTime();
+                  const timeLeft = targetDate - now;
+
+                  if (timeLeft <= 0) {
+                    countdownElement.innerHTML = "Time's up!";
+                    return;
+                  }
+
+                  const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+                  const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                  const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+                  const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
+
+                  countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
+                  setTimeout(updateCountdown, 1000);
+                }
+
+                updateCountdown();
+              }
+
+              document.addEventListener("DOMContentLoaded", startCountdown);
+            </script>
+
+            {{- partial "header/tagline_paragraph.html" . -}}
+          </div>
         {{ end }}
-        <div class="flex mt-6 justify-start md:justify-center">
+
+        <!-- Buttons Section -->
+        <div class="flex flex-col sm:flex-row mt-12 justify-center space-y-6 sm:space-y-0 sm:space-x-8">
           {{ with .Params.header_button_cta }}
-            {{- partial "header/button_cta.html" . -}}
+            <div class="mb-6 sm:mb-0">
+              {{- partial "header/button_cta.html" . -}}
+            </div>
           {{ end }}
           {{ with .Params.header_button_more }}
-            {{- partial "header/button_more.html" . -}}
+            <div>
+              {{- partial "header/button_more.html" . -}}
+            </div>
           {{ end }}
         </div>
       </div>
+
+      <!-- Teaser Image -->
       {{ with .Params.teaser_image }}
-        {{- partial "header/teaser_image.html" . -}}
+        <div class="mt-16">
+          {{- partial "header/teaser_image.html" . -}}
+        </div>
       {{ end }}
     </div>
   </div>
